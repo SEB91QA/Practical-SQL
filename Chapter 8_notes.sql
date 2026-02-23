@@ -38,4 +38,19 @@ CREATE TABLE natural_key_example (
 	--It must be used whe you want to create a primary key using more than one column
 );
 
-/*Table Constraint*/
+
+/*Auto-Incrementing Surrogate Key*/
+/*Since using GENERATED ALWAYS AS IDENTITY robids adding manual rows,
+however we can use the command OVERRIDING SYSTEM VALUE to add a manual
+row, it overrides the IDENTITY restriction. 
+
+We can reset the identity of the column by using ALTER TABLE and ALTER COLUMN
+along with the RESTART WITH 5.*/
+
+
+/*Foreing Keys*/
+/*A foregin key is one or more columns whose values match those in another table's
+primary key or another unique key. Foregin key values must already exist in the 
+primary key or other unique key of the table it references -> Referential integrity*/
+
+--The command ON DELETE CASCADE allows to automatically delete any related rows
