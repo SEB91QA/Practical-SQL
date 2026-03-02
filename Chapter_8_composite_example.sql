@@ -62,6 +62,48 @@ VALUES ('A203391', '2022-03-17', 'T229901');
 INSERT INTO registrations (registration_id, registration_date, license_id)
 VALUES ('A75772', '2022-03-17', 'T000001');
 
-/*Automatically delete related records with CASCADE*/
+/*Automatically delete related records with CASCADE
+Deleting a row in licenses and have that action automatically delete any related rows
+in registrations or other tables -> ON DELETE CASCADE*/
+
+/*The CHECK Constraint
+It evaluates whether data added to a column meets the expected criteria, which we specify
+with a logical test.
+
+*/
+
+CREATE TABLE check_constraint_example (
+	user_id BIGINT GENERATED ALWAYS AS IDENTITY,
+	user_role TEXT,
+	salary NUMERIC(10, 2),
+	CONSTRAINT user_id_key PRIMARY KEY (user_id),
+	CONSTRAINT check_role_in_list CHECK (user_role IN ('Admin', 'Staff')),
+	CONSTRAINT check_salary_not_below_zero CHECK (salary >= 0));
+
+CREATE TABLE unique_constraint_example (
+	contact_id BIGINT GENERATED ALWAYS AS IDENTITY,
+	first_name TEXT,
+	last_name TEXT,
+	email TEXT,
+	CONSTRAINT contact_id_key PRIMARY KEY (contact_id),
+	CONSTRAINT email_unique UNIQUE (email));
+
+INSERT INTO unique_constraint_example (first_name, last_name, email)
+VALUES ('Samantha', 'Lee', 'slee@example.org');
+
+INSERT INTO unique_constraint_example (first_name, last_name, email)
+VALUES ('Betty', 'Diaz', 'bdiaz@example.org');
+
+INSERT INTO unique_constraint_example (first_name, last_name, email)
+VALUES ('Sasha', 'Lee', 'slee@example.org');
+
+CREATE TABLE not_null_example (
+	student_id BIGINT GENERATED ALWAYS AS IDENTITY,
+	first_name TEXT NOT NULL,
+	last_name TEXT NOT NULL,
+	CONSTRAINT student_id_key PRIMARY KEY (student_id));
+
+/*How to Remove Constraints or Add Them Later*/
+
 
 

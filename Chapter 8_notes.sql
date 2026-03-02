@@ -53,4 +53,25 @@ along with the RESTART WITH 5.*/
 primary key or another unique key. Foregin key values must already exist in the 
 primary key or other unique key of the table it references -> Referential integrity*/
 
---The command ON DELETE CASCADE allows to automatically delete any related rows
+/*The CHECK Constraint
+It evaluates whether data added to a column meets the expected criteria, which we specify
+with a logical test. Constraints always help in keeping the data integrity*/
+
+/*The UNIQUE Constraint
+It ensures that a column has a unique value in each row by using the UNIQUE constraint.
+This constraint allows for NULL values*/
+
+CREATE TABLE unique_constraint_example (
+	contact_id BIGINT GENERATED ALWAYS AS IDENTITY,
+	first_name TEXT,
+	last_name TEXT,
+	email TEXT,
+	CONSTRAINT contact_id_key PRIMARY KEY (contact_id),
+	CONSTRAINT email_unique UNIQUE (email));
+
+/*The NOT NULL Constraint
+
+
+
+
+*/
