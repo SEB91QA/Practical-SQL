@@ -105,5 +105,43 @@ CREATE TABLE not_null_example (
 
 /*How to Remove Constraints or Add Them Later*/
 
+ALTER TABLE not_null_example DROP CONSTRAINT student_id_key;
+ALTER TABLE not_null_example ADD CONSTRAINT studet_id_key PRIMARY KEY (student_id);
+ALTER TABLE not_null_example ALTER COLUMN first_name DROP NOT NULL;
+ALTER TABLE not_null_example ALTER COLUMN first_name SET NOT NULL;
 
+/*The default indez type is the B-Tree index. It is useful for data that can 
+be ordered and searched using equality and range operators and BETWEEN. Postgres
+also supports additional index types, such as the Generalized Inverted Indez (GIN)
+and the Generalized Search Tree (GiST)*/
 
+CREATE TABLE new_york_addresses (
+	longitude NUMERIC(9, 6),
+	latitude NUMERIC(9, 6),
+	street_number TEXT,
+	street TEXT,
+	unit TEXT,
+	postcode TEXT,
+	id INTEGER CONSTRAINT new_york_key PRIMARY KEY
+);
+
+COPY new_york_addresses
+FROM 'C:\postgres_exports\city_of_new_york.csv'
+WITH (FORMAT CSV, HEADER);
+
+/*The EXPLAIN command, which lists the query plan for a specific database query. With the 
+ANALYZE keyword, EXPLAIN will carry out the query and show the actual exection time.*/
+
+EXPLAIN ANALYZE SELECT * FROM new_york_addresses
+WHERE street = 'BROADWAY'; /*It tells you how will the database execute the scan and how long
+							the query took to run*/
+
+EXPLAIN ANALYZE SELECT * FROM new_york_addresses
+WHERE street = '52 STREET';
+
+EXPLAIN ANALYZE SELECT * FROM new_york_addresses
+WHERE street = 'ZWICKY AVENUE';
+
+CREATE INDEX street_idx ON new_york_addresses (street);
+
+/*What are the differences between Parallel Sequence Scan and Bitmap Index Scan*/
