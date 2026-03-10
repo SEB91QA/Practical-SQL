@@ -91,3 +91,63 @@ SELECT city, stabr
 FROM pls_fy2018_libraries
 GROUP BY city, stabr
 ORDER BY city, stabr;
+
+SELECT stabr, COUNT(*)
+FROM pls_fy2018_libraries
+GROUP BY stabr
+ORDER BY stabr DESC;
+
+SELECT SUM(visits) AS visits_2018
+FROM pls_fy2018_libraries
+WHERE visits >= 0;
+
+SELECT SUM(visits) AS visits_2017
+FROM pls_fy2017_libraries
+WHERE visits >= 0;
+
+SELECT SUM(visits) AS visits_2016
+FROM pls_fy2016_libraries
+WHERE visits >= 0;
+
+SELECT SUM(pls18.visits) AS visits_2018,
+	   SUM(pls17.visits) AS visits_2017,
+	   SUM(pls16.visits) AS visits_2016
+
+	   FROM pls_fy2018_libraries AS pls18
+	     JOIN pls_fy2017_libraries AS pls17
+		   ON pls18.fscskey = pls17.fscskey
+
+	     JOIN pls_fy2016_libraries AS pls16
+		   ON pls16.fscskey = pls18.fscskey
+
+	   WHERE pls18.visits >= 0
+	   		 AND
+		     pls17.visits >= 0
+			 AND
+			 pls16.visits >= 0;
+
+SELECT pls18.stabr,
+	   SUM(pls18.visits) AS visits_2018,
+	   SUM(pls17.visits) AS visits_2017,
+	   SUM(pls16.visits) AS visits_2016,
+	   ROUND((SUM(pls18.visits::NUMERIC) - SUM(pls17.visits))/SUM(pls17.visits) * 100, 1) AS chg_2018_17,
+	   ROUND((SUM(pls17.visits::NUMERIC) - SUM(pls16.visits))/SUM(pls16.visits) * 100, 1) AS chg_2017_16
+
+	   FROM pls_fy2018_libraries AS pls18
+	     JOIN pls_fy2017_libraries AS pls17
+		   ON pls18.fscskey = pls17.fscskey
+		   
+		 JOIN pls_fy2016_libraries AS pls16
+		   ON pls16.fscskey = pls18.fscskey
+	   
+	   WHERE pls18.visits >= 0
+	   		 AND
+		     pls17.visits >= 0
+			 AND
+			 pls16.visits >= 0
+	
+	   GROUP BY pls18.stabr
+	   ORDER BY chg_2018_17 DESC;
+			 
+/*Always make sense of the data. Data analysis can sometimes raise as many questions as it answers, 
+but thats part of the process. */
