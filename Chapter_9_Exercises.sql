@@ -95,3 +95,18 @@ SELECT r.region_name,
 	
 	   GROUP BY r.region_name
 	   ORDER BY chg_2018_17 DESC;
+
+SELECT pls18.libname, pls18.city, pls18.stabr, pls18.statstru,
+	   pls17.libname, pls17.city, pls17.stabr, pls17.statstru,
+	   pls16.libname, pls16.city, pls16.stabr, pls16.statstru
+
+	   FROM pls_fy2018_libraries AS pls18
+	     FULL OUTER JOIN pls_fy2017_libraries AS pls17
+		   ON pls18.fscskey = pls17.fscskey
+
+		 FULL OUTER JOIN pls_fy2016_libraries AS pls16
+		   ON pls18.fscskey = pls16.fscskey
+
+	   WHERE pls16.fscskey IS NULL OR pls17.fscskey IS NULL;
+	   -- This limits the results to those that do not
+	   -- appear in one or more tables.
